@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Una invitación para ti 💜</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Cinzel:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky1:#2a1458; --sky2:#6a3aa8; --sky3:#d07ac8;
+  --road:#3a2a52; --line:#f5d76e; --ground:#24123f;
+  --card:#fbf5ff; --ink:#3a2060; --accent:#8a4fd0; --accent2:#b784e8;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;font-family:'Cormorant Garamond',Georgia,serif;
+  background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 55%,var(--sky3) 100%);color:var(--ink)}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.star{position:fixed;width:3px;height:3px;border-radius:50%;background:#fff;opacity:.7;animation:tw 3s ease-in-out infinite}
+@keyframes tw{50%{opacity:.15}}
+.mesa{position:fixed;left:0;right:0;bottom:22vh;height:16vh;background:#4a2a7a;opacity:.55;
+  clip-path:polygon(0 100%,5% 45%,13% 62%,22% 22%,32% 58%,42% 32%,54% 60%,64% 26%,76% 58%,88% 36%,96% 62%,100% 48%,100% 100%)}
+.ground{position:fixed;left:0;right:0;bottom:0;height:24vh;background:linear-gradient(180deg,#3a1d63,var(--ground))}
+.road{position:fixed;left:0;right:0;bottom:4vh;height:11vh;background:var(--road)}
+.road::before{content:"";position:absolute;left:0;right:0;top:50%;height:3px;
+  background:repeating-linear-gradient(90deg,var(--line) 0 28px,transparent 28px 56px);animation:dash 1.2s linear infinite}
+@keyframes dash{to{background-position:-56px 0}}
+.car{position:fixed;bottom:calc(4vh + 2vh);width:min(170px,34vw);z-index:2;transition:left 1.4s cubic-bezier(.3,.7,.3,1)}
+#rayo{left:6vw;animation:bob 1.1s ease-in-out infinite}
+#sally{right:6vw;animation:bob 1.3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-3px)}}
+.stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;z-index:5}
+.card{width:min(460px,100%);background:var(--card);border-radius:6px;padding:30px 26px 26px;text-align:center;
+  box-shadow:0 24px 70px rgba(20,0,50,.55),0 0 0 1px #e4d2f5;margin-bottom:14vh}
+.kicker{font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;color:var(--accent);margin:0 0 10px}
+h1{font-family:'Cinzel',serif;font-weight:600;font-size:clamp(22px,6vw,29px);line-height:1.25;margin:0 0 10px;color:var(--ink)}
+.sub{font-size:20px;line-height:1.5;margin:0 0 20px;font-style:italic;color:#5a3a88}
+.btns{display:flex;gap:14px;justify-content:center;align-items:center;min-height:64px;flex-wrap:wrap}
+button{font-family:'Cinzel',serif;font-size:16px;border:none;border-radius:40px;cursor:pointer;padding:14px 30px;
+  transition:transform .2s ease,font-size .2s ease}
+button:focus-visible{outline:3px solid var(--accent2);outline-offset:3px}
+#yes{background:linear-gradient(135deg,#8a4fd0,#b05fd8);color:#fff;box-shadow:0 6px 18px rgba(138,79,208,.45)}
+#yes:hover{transform:scale(1.06)}
+#no{background:#ece0f8;color:#5a3a88;position:relative;z-index:20;transition:left .25s ease,top .25s ease,transform .2s ease}
+.hint{margin-top:16px;min-height:24px;font-size:18px;color:#7a56a8;font-style:italic}
+#done{display:none}
+#done h1{margin-bottom:8px}
+.pick{margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+input[type=date]{font-family:'Cormorant Garamond',serif;font-size:19px;padding:10px 14px;border-radius:30px;border:1.5px solid #cdb2ec;background:#fff;color:var(--ink)}
+.sent{margin-top:14px;font-size:21px;font-style:italic;color:var(--accent);min-height:28px}
+.wa{display:none;margin:16px auto 0;width:fit-content;font-family:'Cinzel',serif;font-size:15px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#8a4fd0,#b05fd8);padding:14px 26px;border-radius:40px;box-shadow:0 6px 18px rgba(138,79,208,.45)}
+.wa:focus-visible{outline:3px solid var(--accent2);outline-offset:3px}
+.heart{position:fixed;bottom:-30px;z-index:4;pointer-events:none;animation:up linear forwards}
+@keyframes up{to{transform:translateY(-110vh) translateX(var(--dx,20px)) rotate(var(--r,20deg));opacity:0}}
+@media (prefers-reduced-motion:reduce){.star,.road::before,#rayo,#sally{animation:none}.heart{display:none}}
+</style>
+</head>
+<body>
+<div class="mesa"></div><div class="ground"></div><div class="road"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="rayoSym" viewBox="-34 -24 66 40">
+      <circle cx="-14" cy="10" r="7.5" fill="#161616"/><circle cx="-14" cy="10" r="4.2" fill="#c9c9c9"/>
+      <circle cx="15" cy="10" r="7.5" fill="#161616"/><circle cx="15" cy="10" r="4.2" fill="#c9c9c9"/>
+      <path d="M-25,-6 L-31,-10 L-31,-4 L-24,-1 Z" fill="#a81818"/>
+      <path d="M-24,6 C-24,-1 -19,-5 -12,-6 C-9,-15 -2,-20 6,-20 C13,-20 18,-17 19,-12 C24,-11 28,-7 28,-2 C28,3 25,7 19,8 L-19,8 C-23,8 -24,8 -24,6 Z" fill="#e2312a"/>
+      <path d="M-22,7.5 C-14,9 8,9 26,5" stroke="#a81818" stroke-width="1.6" fill="none" opacity=".6"/>
+      <path d="M-8,-13 C-5,-18 2,-20 8,-19 C11,-18.5 13,-16 13,-12 L12,-6 L-5,-6 Z" fill="#bfe0ff"/>
+      <ellipse cx="27" cy="-1" rx="2.6" ry="3.6" fill="#fff6c8"/>
+      <circle cx="0" cy="-11" r="2.4" fill="#fff"/><circle cx="9" cy="-11" r="2.4" fill="#fff"/>
+      <circle cx="0.6" cy="-10.6" r="1.2" fill="#241408"/><circle cx="9.6" cy="-10.6" r="1.2" fill="#241408"/>
+      <path d="M17,0 Q20,2.4 24,0" stroke="#241408" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <path d="M-6,-2 L-12,4 L-9,4 L-11,10 L-4,2 L-7,2 Z" fill="#f4d43c" stroke="#c9a800" stroke-width=".6"/>
+      <text x="-19" y="3" font-size="6" font-family="Cinzel,serif" font-weight="600" fill="#fff" opacity=".9">95</text>
+    </symbol>
+    <symbol id="sallySym" viewBox="-26 -24 52 40">
+      <circle cx="-12" cy="9" r="6.8" fill="#161616"/><circle cx="-12" cy="9" r="3.6" fill="#e8e8e8"/>
+      <circle cx="12" cy="9" r="6.8" fill="#161616"/><circle cx="12" cy="9" r="3.6" fill="#e8e8e8"/>
+      <path d="M-19,4 C-19,-3 -15,-7 -9,-8 C-6,-14 0,-17 6,-16 C11,-15 14,-12 14,-8 L18,-5 C21,-4 22,-1 21,3 C20,7 16,9 10,9 L-16,9 C-18,9 -19,7 -19,4 Z" fill="#8fd0f2"/>
+      <path d="M-17,6.5 C-9,8 8,8 20,3.5" stroke="#5aa6d2" stroke-width="1.4" fill="none" opacity=".6"/>
+      <path d="M-7,-12 C-4,-15 1,-17 6,-16 C9,-15 11,-13 11,-9 L10,-4 L-6,-4 Z" fill="#f2faff"/>
+      <ellipse cx="20" cy="0" rx="2.2" ry="3" fill="#fff6c8"/>
+      <circle cx="-4" cy="-8" r="2.3" fill="#fff"/><circle cx="3" cy="-8" r="2.3" fill="#fff"/>
+      <circle cx="-3.6" cy="-7.6" r="1.2" fill="#1c3a5a"/><circle cx="3.4" cy="-7.6" r="1.2" fill="#1c3a5a"/>
+      <path d="M-5,1.5 Q0,4.4 5,1.5" stroke="#1c3a5a" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <path d="M-14,-3 C-12,-8 -8,-6 -9,-2" stroke="#2a6ea0" stroke-width="1" fill="none"/>
+      <path d="M-18,-4 L-22,-8 L-22,-2 Z" fill="#6fb8e0"/>
+    </symbol>
+  </defs>
+</svg>
+
+<svg class="car" id="rayo" viewBox="-34 -24 66 40" aria-label="Rayo McQueen"><use href="#rayoSym" x="-34" y="-24" width="66" height="40"/></svg>
+<svg class="car" id="sally" viewBox="-26 -24 52 40" aria-label="Sally"><g transform="scale(-1,1)"><use href="#sallySym" x="-26" y="-24" width="52" height="40"/></g></svg>
+
+<main class="stage">
+  <section class="card" id="ask">
+    <p class="kicker">UNA INVITACIÓN</p>
+    <h1>¿Quieres venir conmigo al cine a ver Cars?</h1>
+    <p class="sub">Rayo ya va en camino por Sally, y yo por ti. 🎬🍿</p>
+    <div class="btns" id="btns">
+      <button id="yes">Sí, quiero 💜</button>
+      <button id="no">No</button>
+    </div>
+    <div class="hint" id="hint"></div>
+  </section>
+
+  <section class="card" id="done">
+    <p class="kicker">¡LO SABÍA!</p>
+    <h1>Dime qué día y vamos 💜</h1>
+    <p class="sub">Palomitas, Rayo, Sally y tú a mi lado. Te amo muchísimo, mi niña. 👑</p>
+    <div class="pick">
+      <input type="date" id="day" aria-label="Elige el día">
+      <button id="ok">Este día</button>
+    </div>
+    <div class="sent" id="sent"></div>
+    <a class="wa" id="wa" href="#" target="_blank" rel="noopener">Avisarme por WhatsApp 💬</a>
+  </section>
+</main>
+
+<script>
+for(let i=0;i<40;i++){
+  const s=document.createElement('div');s.className='star';
+  s.style.left=Math.random()*100+'%';s.style.top=Math.random()*45+'%';
+  s.style.animationDelay=(Math.random()*3)+'s';document.body.appendChild(s);
+}
+const no=document.getElementById('no'),yes=document.getElementById('yes'),hint=document.getElementById('hint');
+const lines=['¿Segura???','¿Segura segura? 🥺','Piensa en las palomitas 🍿','Rayo se va a poner triste…','Mira que Sally ya dijo que sí 💙','Ese botón está roto, fijo 😌','Última oportunidad (mentira, no hay)','Ya, dile que sí 💜','Hasta el botón se cansó de huir','Okay, ya no te dejo escapar'];
+let n=0,scale=1;
+function dodge(e){
+  if(e){e.preventDefault();}
+  n++;
+  hint.textContent=lines[Math.min(n-1,lines.length-1)];
+  scale=Math.min(scale+0.18,2.2);
+  yes.style.transform='scale('+scale+')';
+  yes.style.margin=(scale*8)+'px';
+  if(n>=lines.length-1){no.textContent='Sí 💜';no.style.background='#b05fd8';no.style.color='#fff';no.onclick=say;no.removeEventListener('pointerenter',dodge);no.removeEventListener('pointerdown',dodge);return;}
+  const w=no.offsetWidth,h=no.offsetHeight,pad=12;
+  const x=pad+Math.random()*(innerWidth-w-pad*2),y=pad+Math.random()*(innerHeight-h-pad*2);
+  no.style.position='fixed';no.style.left=x+'px';no.style.top=y+'px';
+  no.textContent=['No','¿No?','no…','¿en serio?'][n%4];
+}
+no.addEventListener('pointerenter',dodge);
+no.addEventListener('pointerdown',dodge);
+no.addEventListener('click',e=>e.preventDefault());
+function hearts(k){
+  const sym=['💜','💗','✨','🎬','🍿','💕'];
+  for(let i=0;i<k;i++){
+    const h=document.createElement('span');h.className='heart';
+    h.textContent=sym[Math.floor(Math.random()*sym.length)];
+    h.style.left=Math.random()*100+'vw';h.style.fontSize=(16+Math.random()*20)+'px';
+    h.style.animationDuration=(4+Math.random()*4)+'s';h.style.animationDelay=(Math.random()*1.2)+'s';
+    h.style.setProperty('--dx',(Math.random()*100-50)+'px');h.style.setProperty('--r',(Math.random()*60-30)+'deg');
+    document.body.appendChild(h);setTimeout(()=>h.remove(),9500);
+  }
+}
+function say(){
+  no.style.display='none';
+  document.getElementById('ask').style.display='none';
+  document.getElementById('done').style.display='block';
+  const rayo=document.getElementById('rayo');
+  rayo.style.left='calc(100vw - 6vw - min(170px,34vw) * 2.1)';
+  hearts(40);
+}
+yes.addEventListener('click',say);
+document.getElementById('ok').addEventListener('click',()=>{
+  const v=document.getElementById('day').value;
+  if(!v){document.getElementById('sent').textContent='Elige un día primero 💜';return;}
+  const [y,m,d]=v.split('-').map(Number);
+  const t=new Date(y,m-1,d).toLocaleDateString('es',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('sent').textContent='Ese día es nuestro: '+t+' 🎬💜';
+  const wa=document.getElementById('wa');
+  wa.href='https://wa.me/50240830765?text='+encodeURIComponent('¡Sí quiero ir a ver Cars contigo! 💜 Vamos el '+t+' 🎬🍿 Te amo');
+  wa.style.display='block';
+  hearts(25);
+});
+</script>
+</body>
+</html>
